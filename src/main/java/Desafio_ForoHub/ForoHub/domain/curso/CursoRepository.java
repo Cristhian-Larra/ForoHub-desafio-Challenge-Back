@@ -14,4 +14,5 @@ public interface CursoRepository extends JpaRepository<Curso, Long> {
             WHERE c.nombre = :nombre""")
     Curso findByNombre(String nombre);
 
+    boolean existsByNombre(String nombre);
 }

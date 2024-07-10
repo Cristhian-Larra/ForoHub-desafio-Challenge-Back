@@ -3,6 +3,8 @@ package Desafio_ForoHub.ForoHub.controller;
 import Desafio_ForoHub.ForoHub.domain.usuario.*;
 import Desafio_ForoHub.ForoHub.infra.security.DatosJWTToken;
 import Desafio_ForoHub.ForoHub.infra.security.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     @Autowired
@@ -33,6 +36,8 @@ public class UsuarioController {
 
     @PostMapping
     @Transactional
+    @Operation(
+            summary = "registra un usuario en la base de datos")
     public ResponseEntity<DatosDetalladaUsuario> registrarUsuario(@RequestBody @Valid DatosRegistroUsuario datos,
                                                                   UriComponentsBuilder uriComponentsBuilder) {
         var response = usuarioService.registrarUsuario(datos);
@@ -41,6 +46,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
+    @Operation(
+            summary = "autentica un usuario en la base de datos")
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datos) {
         Authentication authToken = new UsernamePasswordAuthenticationToken(datos.email(), datos.password());
         var usuarioAutenticado = authenticationManager.authenticate(authToken);
@@ -49,12 +56,14 @@ public class UsuarioController {
     }
 
     @GetMapping
+    @Operation(summary = "Obtiene el listado de usuarios")
     public ResponseEntity<Page<DatosDetalladaUsuario>> listarUsuarios(@PageableDefault(size = 10) Pageable paginacion) {
         var response = usuarioService.listarUsuarios(paginacion);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Obtiene un usuario por ID")
     public ResponseEntity listarUsuarioID(@RequestBody @Valid @PathVariable Long id) {
         var response = usuarioService.listarUsuarioID(id);
         return ResponseEntity.ok(response);
@@ -62,6 +71,8 @@ public class UsuarioController {
 
     @PutMapping()
     @Transactional
+    @Operation(
+            summary = "actualiza un usuario en la base de datos")
     public ResponseEntity actualizarUsuario(@RequestBody @Valid ActualizarUsuario datos) {
         var response = usuarioService.actualizarUsuario(datos);
         return ResponseEntity.ok(response);
@@ -69,6 +80,8 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(
+            summary = "elimina un usuario en la base de datos")
     public ResponseEntity eliminarUsuario(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
         return ResponseEntity.noContent().build();
