@@ -144,7 +144,7 @@ Dependencias que usa el proyecto
 Para obtener ayuda, puedes abrir un issue en el [repositorio del proyecto](https://github.com/Cristhian-Larra/ForoHub-desafio-Challenge-Back/issues).
 
 ## Autores
-- **Nombre del Autor** - [GitHub](https://github.com/Cristhian-Larra)
+- **Cristhian Larrahondo** - [GitHub](https://github.com/Cristhian-Larra)
     
 ## Licencia
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
